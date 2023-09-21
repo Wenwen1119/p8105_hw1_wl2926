@@ -1,0 +1,74 @@
+---
+title: "p8105_hw1_wl2926"
+author: "Wenwen Li"
+date: 2023-09-21
+output: github_document
+---
+
+
+# Problem 1
+
+```{r setup, include = FALSE}
+# install and load package
+# install.packages("moderndive")
+library(moderndive)
+# load datasets
+data("early_january_weather")
+```
+
+## Decribe the Dataset
+
+Write a short description of the dataset using inline R code:
+* the variables in this dataset, including names / values of important variables
+* the size of the dataset (using nrow and ncol)
+* the mean temperature
+
+### Size of the dataset
+use nrow and ncol function
+```{r}
+nrow(early_january_weather)
+ncol(early_january_weather)
+```
+The dataset contains 358 observationss and 15 variables
+
+### Variables
+Getting list of variable names
+```{r}
+colnames(early_january_weather)
+```
+use 'skimr::skim' function to look at the data for the first setp
+```{r}
+skimr::skim(early_january_weather)
+```
+There are 1 character variable, 13 numeric variables and 1 POSIXct variable.
+
+### the mean temperature
+Using functions to get the mean temperature
+```{r}
+mean(early_january_weather$temp, na.rm=TRUE)
+```
+The mean of the temperature is 39.58212.
+
+### Make a scatterplot of temp(y) vs time_hour(x)
+```{r}
+scatter_plot <- ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
+  geom_point() +
+  labs(x = "Time Hour", y = "Temperature", color = "Humidity") +
+  theme_minimal()
+```
+
+#
+
+
+Here's a **code chunk** that samples from 
+a _normal distribution_:
+
+```{r}
+samp = rnorm(100)
+length(samp)
+```
+
+# Section 2
+
+I can take the mean of the sample, too!
+The mean is `r mean(samp)`.
