@@ -49,7 +49,7 @@ mean(early_january_weather$temp, na.rm=TRUE)
 ```
 The mean of the temperature is 39.58212.
 
-### Make a scatterplot of temp(y) vs time_hour(x)
+## Make a scatterplot of temp(y) vs time_hour(x)
 ```{r}
 scatter_plot <- ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
   geom_point() +
@@ -57,18 +57,18 @@ scatter_plot <- ggplot(early_january_weather, aes(x = time_hour, y = temp, color
   theme_minimal()
 ```
 
-#
+# Problem 2
+
+Create a data frame comprised of:
+
+* a random sample of size 10 from a standard Normal distribution
+* a logical vector indicating whether elements of the sample are greater than 0
+* a character vector of length 10
+* a factor vector of length 10, with 3 different factor “levels”
+
+## aa
+ 
+create data form
 
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
 
-```{r}
-samp = rnorm(100)
-length(samp)
-```
-
-# Section 2
-
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
