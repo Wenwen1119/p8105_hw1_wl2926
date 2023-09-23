@@ -10,6 +10,7 @@ output: github_document
 
 ```{r setup, include = FALSE}
 # install and load package
+library(tidyverse)
 # install.packages("moderndive")
 library(moderndive)
 # load datasets
@@ -36,7 +37,12 @@ Getting list of variable names
 ```{r}
 colnames(early_january_weather)
 ```
-use 'skimr::skim' function to look at the data for the first setp
+Important variables may include:
+time_hour: Time of the measurement.
+temp: Temperature.
+humid: Humidity.
+
+##use 'skimr::skim' function to look at the data for the first setp
 ```{r}
 skimr::skim(early_january_weather)
 ```
@@ -51,11 +57,15 @@ The mean of the temperature is 39.58212.
 
 ## Make a scatterplot of temp(y) vs time_hour(x)
 ```{r}
-scatter_plot <- ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
-  geom_point() +
-  labs(x = "Time Hour", y = "Temperature", color = "Humidity") +
-  theme_minimal()
+set.seed(1)
+scatter_plot<-ggplot(early_january_weather,aes(x=time_hour,y=temp,color=humid))+geom_point()
+print(scatter_plot)
 ```
+## Export Scatterplot
+```{r}
+ggsave("sctter_plot.pdf", plot = scatter_plot,height = 4, width = 6)
+```
+
 
 # Problem 2
 
@@ -66,9 +76,75 @@ Create a data frame comprised of:
 * a character vector of length 10
 * a factor vector of length 10, with 3 different factor “levels”
 
-## aa
- 
-create data form
+## Create data frame
+```{r}
+set.seed(1)
+rnorm_sample = rnorm(10, sd = 1)
+print(rnorm_sample)
+```
 
+##  a logical vector indicating whether elements of the sample are greater than 0
+```{r}
+set.seed(1)
+vec_logical <- rnorm_sample > 0
+print(vec_logical)
+```
 
+## a character vector of length 10
+```{r}
+vec_char = c("uni", "cute", "westie", "puppy", "girl","white","little","small","dog","really")
+print(vec_char)
+```
 
+## a factor vector of length 10, with 3 different factor “levels”
+```{r}
+vec_factor = factor(vec_char, levels = c("uni", "cute", "westie"))
+print(vec_factor)
+```
+## Create the dataframe
+```{r}
+df <- data.frame(
+  rnorm_sample = rnorm_sample,
+  vec_logical = vec_logical,
+  vec_char = vec_char,
+  vec_factor = vec_factor
+)
+```
+## Calculate the mean of each variable using pull from the dataframe
+```{r}
+mean(rnorm_sample)
+mean(vec_logical)
+mean(vec_char)
+mean(vec_factor)
+```
+### Load necessary libraries
+```{r}
+library(tidyverse)
+mean_rnorm_sample <- mean(pull(df, rnorm_sample))
+mean_vec_logical <- mean(pull(df, vec_logical))
+mean_vec_char <- mean(pull(df, vec_char))
+mean_vec_factor <- mean(pull(df, vec_factor))
+```
+It only works for numeric or bool variables; some variable cannot be calculated.
+
+## applies the as.numeric function
+```{r}
+mean_rnorm_sample <- mean(pull(df, rnorm_sample))
+mean_vec_logical <- mean(as.numeric(pull(df, vec_logical)))
+mean_vec_char <- mean(as.numeric(pull(df, vec_char)))
+mean_vec_factor <- mean(as.numeric(pull(df, vec_factor)))
+
+# Print the means
+print("Mean of rnorm_sample:")
+print(mean_rnorm_sample)
+
+print("Mean of vec_logical:")
+print(mean_vec_logical)
+
+print("Mean of vec_char:")
+print(mean_vec_char)
+
+print("Mean of vec_factor:")
+print(mean_vec_factor)
+```
+For the logical vector (vec_logical), as.numeric will convert TRUE to 1 and FALSE to 0.For the character vector (vec_char), as.numeric will attempt to convert characters to numeric values. If it can't make a meaningful conversion (most cases), it will result in NA (Not Available) for those elements.For the factor vector (vec_factor), as.numeric will convert the underlying numerical representation of the factor levels. Each factor level is internally represented by integers.
